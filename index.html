@@ -38,17 +38,18 @@
             <div class="info"><b>Version:</b> 1.0.0</div>
             <div class="info"><b>Last Updated:</b> 26th Jun, 2023</div>
         </div>
-        <h2>Getting Started</h2>
+        <h2 class="section-title">Getting Started</h2>
+        <ul>
+            <li class="scroll-to-link active" data-target="content-get-started"><a>Getting Started</a></li>
+            <li class="scroll-to-link active" data-target="content-authentication"><a>Authentication</a></li>
+            <li class="scroll-to-link active" data-target="content-api-environments"><a>API Environments</a></li>
+        </ul>
+        <h2 class="section-title">Employee Data</h2>
         <ul>
             <li class="scroll-to-link active" data-target="content-get-started"><a>Getting Started</a></li>
             <li class="scroll-to-link active" data-target="content-get-authentication"><a>Authentication</a></li>
         </ul>
-        <h2>Employee Data</h2>
-        <ul>
-            <li class="scroll-to-link active" data-target="content-get-started"><a>Getting Started</a></li>
-            <li class="scroll-to-link active" data-target="content-get-authentication"><a>Authentication</a></li>
-        </ul>
-        <h2>Payroll</h2>
+        <h2 class="section-title">Payroll</h2>
         <ul>
             <li class="scroll-to-link active" data-target="content-get-started"><a>Getting Started</a></li>
             <li class="scroll-to-link active" data-target="content-get-authentication"><a>Authentication</a></li>
@@ -70,6 +71,26 @@
                 <code>-H "Authorization: Bearer {{access_token}}"</code>
             </p>
         </div>
+        <div class="overflow-hidden content-section" id="content-authentication">
+            <h2>Authentication</h2>
+            <p>
+                In order to gain access to the API endpoints you first need to be authenticated. Authentication to the APIs is 
+                performed using a bearer token which is passed in the Authorization header as shown below.<br>
+                <code>-H "Authorization: Bearer {{access_token}}"</code>
+            </p>
+        </div>
+        <div class="overflow-hidden content-section" id="content-api-environments">
+            <h2>API Environments</h2>
+            <p>For ease of development we provide access to 2 environments when accessing our APIs. The Sandbox environment is a dedicated 
+               area for you to test your integration with our APIs. The Production environment is where you will access the live data.</p>
+            <ul>
+                <li><b>Sandbox</b> - <code>https://apis.justloginstaging.xyz/</code></li>
+                <li><b>Production</b> - <code>https://apis.justlogin.com/</code></li>
+            </ul>
+        </div>
+
+
+
         <div class="overflow-hidden content-section" id="content-get-characters">
             <h2>get characters</h2>
             <p>
