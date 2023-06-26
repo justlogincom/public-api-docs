@@ -45,7 +45,7 @@ body{
     min-height: 100%;
     height: 100%;
     -webkit-backface-visibility: hidden;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', 'Roboto', sans-serif;
 }
 strong{
     font-weight: 500;
@@ -75,7 +75,7 @@ p, .content ul, .content ol{
     font-weight: 300;
 }
 .content h1:first-child{
-    font-size: 1.333em;
+    font-size: 1.1em;
     color: #034c8f;
     padding-top: 0.8em;
     text-transform: uppercase;
@@ -87,8 +87,12 @@ p, .content ul, .content ol{
 }
 
 code,
-pre{
+pre {
     font-family: 'Source Code Pro', monospace;
+}
+code { 
+    color: rgb(240, 240, 240);
+    font-size: 90%;
 }
 .higlighted{
     background-color: rgba(0,0,0,0.05);
@@ -96,10 +100,31 @@ pre{
     border-radius: 3px;
 }
 
+/* UTILITY */
+.center {
+    text-align: center;
+}
+.clear {
+    clear: both;
+}
+.code-block {
+    display: block;
+    padding: 10px;
+    margin: 5px;
+}
+.code-block pre {
+    display: block;
+    float: none !important;
+    clear: none !important;
+    width: 100% !important;
+}
+
+
+
 /* LEFT-MENU
 ----------------------------------------------------------------------------------------*/
 
-.left-menu{
+.left-menu {
     position: fixed;
     z-index: 3;
     top: 0;
@@ -109,7 +134,7 @@ pre{
     box-sizing: border-box;
     background-color: #f4f5f8;
     overflow-x: hidden;
-    font-size: 18px;
+    /* font-size: 18px; */
 }
 .left-menu .content-infos {
     position: relative;
@@ -125,6 +150,9 @@ pre{
 .left-menu .info b {
     font-weight: 500;
     color: #034c8f;
+}
+.left-menu h2 {
+    margin-top: 8px;
 }
 .content-logo{
     position: relative;
@@ -178,19 +206,23 @@ pre{
         color: #777A7A;
     }
 }
-.content-menu ul li a{
+.content-menu ul li a {
     padding: 5px 15.25%;
     color: #777A7A;
     letter-spacing: 0.025em;
     line-height: 1.1;
     display: block;
     text-transform: capitalize;
+    font-size: 12px;
 }
 
 .content-menu h2.section-title {
     padding: 5px 13.5%;
-    letter-spacing: 0.015em;
-    text-transform: uppercase;
+    font-weight: 700;
+    /* letter-spacing: 0.015em; */
+    /* text-transform: uppercase; */
+    color: #777A7A;
+    font-size: 14px;
 }
 
 /* CONTENT-PAGE
@@ -267,17 +299,20 @@ pre{
     margin-top: 0.8em;
     margin-bottom: 0.8em;
     color: #034c8f;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
+    font-weight: 800;
 }
-.content h2{
+/* .content h2{
     font-size: 1.333em;
-}
+} */
 .content h4{
     color: #00a8e3;
     margin-top: 0;
     text-transform: none;
-    font-size: 14px;
+    font-size: 13px;
     margin-bottom: 0.2em;
+    font-weight: 500;
+    text-decoration: underline;
 }
 .content-page .content p,
 .content-page .content pre {
@@ -313,9 +348,15 @@ pre{
     margin-bottom: 1.5em;
     border-collapse: collapse;
     border-spacing: 0;
+    width: 100%;
 }
-.content table tr:last-child {
+/* .content table tr:last-child {
     border-bottom: 1px solid #ccc;
+} */
+
+.content table .table-header {
+    font-weight: 700;
+    width: 20%;
 }
 .content table th {
     font-size: 0.925em;
@@ -330,11 +371,15 @@ pre{
     text-align: left;
     vertical-align: top;
     line-height: 1.6;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', 'Roboto', sans-serif;
     font-weight: 300;
     color: #777A7A;
 }
 
+.content ul.content-points {
+    margin-left: 20px;
+    color: #DCDEE9;
+}
 
 /* burger-menu-icon
 ----------------------------------------------------------------------------------------*/

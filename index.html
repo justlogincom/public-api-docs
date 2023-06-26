@@ -12,9 +12,11 @@
 
     <link rel="stylesheet" href="css/hightlightjs-dark.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" media="all">
     <script>
         hljs.initHighlightingOnLoad();
@@ -34,25 +36,29 @@
     </div>
     <div class="mobile-menu-closer"></div>
     <div class="content-menu">
-        <div class="content-infos">
+        <!-- <div class="content-infos">
             <div class="info"><b>Version:</b> 1.0.0</div>
             <div class="info"><b>Last Updated:</b> 26th Jun, 2023</div>
-        </div>
-        <h2 class="section-title">Getting Started</h2>
+        </div> -->
+        <h2 class="scroll-to-link active section-title" data-target="content-get-started"><a>Getting Started</a></h2>
         <ul>
-            <li class="scroll-to-link active" data-target="content-get-started"><a>Getting Started</a></li>
             <li class="scroll-to-link active" data-target="content-authentication"><a>Authentication</a></li>
             <li class="scroll-to-link active" data-target="content-api-environments"><a>API Environments</a></li>
         </ul>
-        <h2 class="section-title">Employee Data</h2>
+        <h2 class="scroll-to-link active section-title" data-target="content-employee-api">Employee API</h2>
         <ul>
-            <li class="scroll-to-link active" data-target="content-get-started"><a>Getting Started</a></li>
-            <li class="scroll-to-link active" data-target="content-get-authentication"><a>Authentication</a></li>
+            <li class="scroll-to-link active" data-target="content-list-employees"><a>List Employees</a></li>
+            <li class="scroll-to-link active" data-target="content-get-employee"><a>Get Single Employee</a></li>
         </ul>
-        <h2 class="section-title">Payroll</h2>
+        <h2 class="scroll-to-link active section-title" data-target="content-payroll-api">Payroll API</h2>
         <ul>
-            <li class="scroll-to-link active" data-target="content-get-started"><a>Getting Started</a></li>
-            <li class="scroll-to-link active" data-target="content-get-authentication"><a>Authentication</a></li>
+            <li class="scroll-to-link active" data-target="content-get-employee-pay-info"><a>Get Employee Pay Information</a></li>
+            <li class="scroll-to-link active" data-target="content-get-bank-info"><a>Get Bank Information</a></li>
+        </ul>
+        <h2 class="scroll-to-link active section-title" data-target="content-leave-management-api">Leave Management API</h2>
+        <ul>
+            <li class="scroll-to-link active" data-target="content-get-leave-type-list"><a>Get List of Leave Types</a></li>
+            <li class="scroll-to-link active" data-target="content-get-leave-info"><a>Get Leave Information</a></li>
         </ul>
     </div>
 </div>
@@ -70,6 +76,129 @@
                 performed using a bearer token which is passed in the Authorization header as shown below.<br>
                 <code>-H "Authorization: Bearer {{access_token}}"</code>
             </p>
+            <h2>OAuth</h2>
+            <p>
+                We offer access to our API via industry standard OAuth 2.0, allowing you to connect with your JustLogin data easily.
+                To begin you will need to request access to our API. You can do so by reaching out to our support team and briefly
+                explaining what you will be using our API for. Once approved we will provide you with a unique Client Id and Client
+                Secret for you to use in the standard OAuth 2.0 specification flow.
+            </p>
+            
+            <h2>Authenticating</h2>
+            <h4>Interactive Clients</h4>
+            <p>This is the most common type of client scenario: web applications, SPAs or native/mobile apps with interactive users.</p>
+            <h4>Authorization Code Flow</h4>
+            <p>For this type of clients, the <code>authorization code</code> flow was designed. That flow consists of two physical operations:</p>
+            <ul class="content-points">
+                <li>A front-channel step via the browser where all “interactive” things happen, e.g. login page, consent etc. This step results in an authorization code that represents the outcome of the front-channel operation.</li>
+                <li>A back-channel step where the authorization code from step 1 gets exchanged with the requested tokens. Confidential clients need to authenticate at this point.</li>
+            </ul>
+            
+            <div class="center">
+                <img src="images/oauth-code-flow.png" alt="OAuth Code Flow" />
+            </div>
+
+            <p>This authentication flow starts with the user clicking a link in the partners application to initiate the authentication process. This will require the Client Id and Client Secret to be passed to the authorization server securely.</p>
+            <p>The user will be prompted to enter their Company Id, Username and Password and authenticate.</p>
+            <p>Once authentication is successful, an access_token will be returned to the calling application. This access_token can now be used to access the JustLogin API resources.</p>
+
+            <h4>Access Token Lifetime</h4>
+            <p>For security reasons, the lifetime of an access token is short, usually 1 hour. You can check how long a token will be valid for via the expires_in value returned with the token. This value is in seconds.</p>
+
+            <h4>Refresh Tokens</h4>
+            <p>The Access Token response will also include a refresh_token. Because a refresh token has a much longer lifetime it can be used to obtain another access token with a POST call to the token endpoint.</p>
+
+            <div class="code-block">
+<pre><code>
+POST /v1/auth/connect/token
+Content-Type: application/x-www-form-urlencoded 
+Authorization: Bearer {{access_token}}
+grant_type=refresh_token&refresh_token={{RefreshToken}}&client_id={{ClientId}}&client_secret={{ClientSecret}}
+</code></pre>
+            </div>
+
+            <h4>Resource Availability</h4>
+            <p>Every user within JustLogin can have one or more roles. The roles which are assigned to the user will define what data that user can access.</p>
+
+
+            <h4>Authorization Code Flow Postman Example</h4>
+            <p>Below is an example of using Authorization Code Flow to obtain an Access Token using Postman.</p>
+            <p>Create a new Postman Request and click the Authorization tab. Select OAuth 2.0 from the Type dropdown list and fill in the form details as follows.</p>
+
+            <div class="center">
+                <img src="images/auth-code-flow-postman-1.png" alt="OAuth Code Flow Postman Example" />
+            </div>
+
+            <p>Once the form is complete, press <b>Get New Access Token</b>.</p>
+
+            <table>
+                <tr>
+                    <td class="table-header">Input</td>
+                    <td>Description</td>
+                </tr>
+                <tr>
+                    <td><code>Token Name</code></td>
+                    <td>You can generate multiple tokens in Postman, give this token a unique name.</td>
+                </tr>
+                <tr>
+                    <td><code>Callback URL</code></td>
+                    <td>When registering with JustLogin you will need to provide a callback URL which we will whitelist and check during token generation.</td>
+                </tr>
+                <tr>
+                    <td><code>Auth URL</code></td>
+                    <td>
+                        This is the URL to the authorize endpoint of our identity server.<br>
+                        <code>https://apis.justlogin.com/v1/auth/connect/authorize</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>Access Token URL</code></td>
+                    <td>
+                        This is the URL to the token endpoint of our identity server.<br>
+                        <code>https://apis.justlogin.com/v1/auth/connect/token</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>Client ID</code></td>
+                    <td>This is a unique ID given to all JustLogin partners.</td>
+                </tr>
+                <tr>
+                    <td><code>Client Secret</code></td>
+                    <td>This is a corresponding secret to the Client ID.</td>
+                </tr>
+                <tr>
+                    <td><code>Scope</code></td>
+                    <td>openid</td>
+                </tr>
+                <tr>
+                    <td><code>State</code></td>
+                    <td>Currently not being used.</td>
+                </tr>
+                <tr>
+                    <td><code>Client Authentication</code></td>
+                    <td>Send client credentials in body</td>
+                </tr>
+            </table>
+
+            <p>Next you will be presented with the JustLogin authentication window were you can enter your login details.</p>
+
+            <div class="center">
+                <img src="images/oauth-login.png" alt="OAuth Login" />
+            </div>
+
+            <p>Once you have logged in you will be presented with an consent page asking you to confirm the connection, click Yes.</p>
+
+            <div class="center">
+                <img src="images/oauth-login-confirmation.png" alt="OAuth Login Confirmation" />
+            </div>
+
+            <p>Postman will now show you the response given from our Identity Server which will include the <code>access_token</code> and <code>refresh_token</code>. You can now use this access_token to access our API endpoints.</p>
+
+            <div class="center">
+                <img src="images/oauth-response.png" alt="OAuth Login Confirmation" />
+            </div>
+
+
             <h2 id="content-api-environments">API Environments</h2>
             <p>For ease of development we provide access to 2 environments when accessing our APIs. The Sandbox environment is a dedicated 
                area for you to test your integration with our APIs. The Production environment is where you will access the live data.</p>
@@ -78,127 +207,64 @@
                 <li><b>Production</b> - <code>https://apis.justlogin.com/</code></li>
             </ul>
         </div>
-        <!-- <div class="overflow-hidden content-section" id="content-authentication">
-            <h2>Authentication</h2>
+
+        <hr>
+
+        <div class="overflow-hidden content-section" id="content-employee-api">
+            <h1>Employee API</h1>
+            <p>Our Employee API provides access to the employees core data such as name and email along with additional details link employee manager.</p>
+            <h2 id="content-list-employees">List Employees</h2>
             <p>
-                In order to gain access to the API endpoints you first need to be authenticated. Authentication to the APIs is 
-                performed using a bearer token which is passed in the Authorization header as shown below.<br>
-                <code>-H "Authorization: Bearer {{access_token}}"</code>
+                Version 3 of our List Users API introduces an improved response providing additional data that is not available from version 2.
+                Note that version 3 of the API is a breaking change.
             </p>
+            <h2 id="content-get-employee">Get Employee</h2>
+            <p>The Get Employee endpoint provides access to a single user based on their unique Id.</p>
         </div>
-        <div class="overflow-hidden content-section" id="content-api-environments">
-            <h2>API Environments</h2>
-            <p>For ease of development we provide access to 2 environments when accessing our APIs. The Sandbox environment is a dedicated 
-               area for you to test your integration with our APIs. The Production environment is where you will access the live data.</p>
-            <ul>
-                <li><b>Sandbox</b> - <code>https://apis.justloginstaging.xyz/</code></li>
-                <li><b>Production</b> - <code>https://apis.justlogin.com/</code></li>
-            </ul>
-        </div> -->
 
+        <hr>
 
-
-        <div class="overflow-hidden content-section" id="content-get-characters">
-            <h2>get characters</h2>
-            <p>
-                To get characters you need to make a POST call to the following url :<br>
-                <code class="higlighted break-word">http://api.westeros.com/character/get</code>
-            </p>
-            <br>
-            <h4>QUERY PARAMETERS</h4>
+        <div class="overflow-hidden content-section" id="content-payroll-api">
+            <h1>Payroll API</h1>
+            <!-- <p>The Payroll API provides...</p> -->
+            <h2 id="content-get-employee-pay-info">Get Employee Pay Information</h2>
+            <p>Returns data relating to the given employees pay setup.</p>
             <table>
-                <thead>
                 <tr>
-                    <th>Field</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>secret_key</td>
-                    <td>String</td>
-                    <td>Your API key.</td>
+                    <td class="table-header">Method</td>
+                    <td>GET</td>
                 </tr>
                 <tr>
-                    <td>search</td>
-                    <td>String</td>
-                    <td>(optional) A search word to find character by name.</td>
+                    <td class="table-header">URL</td>
+                    <td><code>/payroll/employee-management/v1/users/:userGuid/payinfo</code></td>
                 </tr>
                 <tr>
-                    <td>house</td>
-                    <td>String</td>
-                    <td>
-                        (optional) a string array of houses:
-                    </td>
+                    <td class="table-header">Headers</td>
+                    <td><code>Authorization Bearer: {{token}}</code></td>
                 </tr>
                 <tr>
-                    <td>alive</td>
-                    <td>Boolean</td>
-                    <td>
-                        (optional) a boolean to filter alived characters
-                    </td>
+                    <td class="table-header">Parameters</td>
+                    <td><code>:userGuid</code> - the unique user identifier of the user.</td>
                 </tr>
-                <tr>
-                    <td>gender</td>
-                    <td>String</td>
-                    <td>
-                        (optional) a string to filter character by gender:<br> m: male<br> f: female
-                    </td>
-                </tr>
-                <tr>
-                    <td>offset</td>
-                    <td>Integer</td>
-                    <td>(optional - default: 0) A cursor for use in pagination. Pagination starts offset the specified offset.</td>
-                </tr>
-                <tr>
-                    <td>limit</td>
-                    <td>Integer</td>
-                    <td>(optional - default: 10) A limit on the number of objects to be returned, between 1 and 100.</td>
-                </tr>
-                </tbody>
             </table>
+            <h2 id="content-get-bank-info">Get Bank Information</h2>
+            <p><code>{{Environment API URL}}/payroll/employee-management/v1/users/:userGuid/bankinfo</code></p>
         </div>
-        <div class="overflow-hidden content-section" id="content-errors">
-            <h2>Errors</h2>
-            <p>
-                The Westeros API uses the following error codes:
-            </p>
-            <table>
-                <thead>
-                <tr>
-                    <th>Error Code</th>
-                    <th>Meaning</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>X000</td>
-                    <td>
-                        Some parameters are missing. This error appears when you don't pass every mandatory parameters.
-                    </td>
-                </tr>
-                <tr>
-                    <td>X001</td>
-                    <td>
-                        Unknown or unvalid <code class="higlighted">secret_key</code>. This error appears if you use an unknow API key or if your API key expired.
-                    </td>
-                </tr>
-                <tr>
-                    <td>X002</td>
-                    <td>
-                        Unvalid <code class="higlighted">secret_key</code> for this domain. This error appears if you use an API key non specified for your domain. Developper or Universal API keys doesn't have domain checker.
-                    </td>
-                </tr>
-                <tr>
-                    <td>X003</td>
-                    <td>
-                        Unknown or unvalid user <code class="higlighted">token</code>. This error appears if you use an unknow user <code class="higlighted">token</code> or if the user <code class="higlighted">token</code> expired.
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+
+        <hr>
+
+        <div class="overflow-hidden content-section" id="content-leave-management-api">
+            <h1>Leave Management API</h1>
+            <p>The Leave Management API provides...</p>
+            <h2 id="content-get-leave-type-list">Get List of Leave Types</h2>
+            <p><code>{{Environment API URL}}/leave/setup/leave/v2/companies/:companyguid/users/:userguid/assignedleavetypes?whichyear=2023</code></p>
+            <h2 id="content-get-leave-info">Get Leave Information</h2>
+            <p><code>{{Environment API URL}}/leave/setup/leave/v2/companies/:companyguid/users/:userguid/leavetypes/:leaveTypeId/leavesummary?baseondate=YYYY-MM-DD</code></p>
         </div>
+
+        
+        
+    
     </div>
 </div>
 <script src="js/script.js"></script>
