@@ -111,12 +111,12 @@
             <p>The Access Token response will also include a refresh_token. Because a refresh token has a much longer lifetime it can be used to obtain another access token with a POST call to the token endpoint.</p>
 
             <div class="code-block">
-<pre><code>
-POST /v1/auth/connect/token
-Content-Type: application/x-www-form-urlencoded 
-Authorization: Bearer {{access_token}}
-grant_type=refresh_token&refresh_token={{RefreshToken}}&client_id={{ClientId}}&client_secret={{ClientSecret}}
-</code></pre>
+            <pre><code>
+            POST /v1/auth/connect/token
+            Content-Type: application/x-www-form-urlencoded 
+            Authorization: Bearer {{access_token}}
+            grant_type=refresh_token&refresh_token={{RefreshToken}}&client_id={{ClientId}}&client_secret={{ClientSecret}}
+            </code></pre>
             </div>
 
             <h4>Resource Availability</h4>
@@ -212,17 +212,17 @@ grant_type=refresh_token&refresh_token={{RefreshToken}}&client_id={{ClientId}}&c
             <h4>Accessing Pagination Data</h4>
             <p>Each API call returns information about the paged data in the x-pagination response header. This data is in the form of a JSON string and looks as follows:</p>
             <div class="code-block">
-<pre><code>
-{
-    "TotalCount": 37,
-    "PageSize": 10,
-    "CurrentPage": 1,
-    "TotalPages": 4,
-    "HasNext": true,
-    "HasPrevious": false
-}                    
-</code></pre>
-</div>
+            <pre><code>
+            {
+                "TotalCount": 37,
+                "PageSize": 10,
+                "CurrentPage": 1,
+                "TotalPages": 4,
+                "HasNext": true,
+                "HasPrevious": false
+            }                    
+            </code></pre>
+            </div>
 
             <table>
                 <tr>
@@ -279,15 +279,112 @@ grant_type=refresh_token&refresh_token={{RefreshToken}}&client_id={{ClientId}}&c
                 Version 3 of our List Users API introduces an improved response providing additional data that is not available from version 2.
                 Note that version 3 of the API is a breaking change.
             </p>
+            <h4>Customizing the Response</h4>
+            <p>By default, this endpoint will return a minimum set of data for the employee. Additional data can be 
+                requested by using the include query parameter.
+            </p>
+            
+            <p>
+                <b>Example</b><br>
+                <code>/membership/v3/users?include=manager,department,employment,company,profile</code>
+            </p>
+
+            <table>
+                <tr>
+                    <td class="table-header">Query Parameter</td>
+                    <td>Response</td>
+                </tr>
+                <tr>
+                    <td><code>manager</code></td>
+                    <td>Adding the manager parameter, the response will include details about the employees manager, such as their name and email.</td>
+                </tr>
+                <tr>
+                    <td><code>department</code></td>
+                    <td>Adding the department parameter, the response will include the information of what department the employee belong to.</td>
+                </tr>
+                <tr>
+                    <td><code>employment</code></td>
+                    <td>Adding the employment parameter, the response will include the employees employment information such as their designation and employment status.</td>
+                </tr>
+                <tr>
+                    <td><code>company</code></td>
+                    <td>Adding the company parameter, the response will include company data such as name and unique Id.</td>
+                </tr>
+                <tr>
+                    <td><code>profile</code></td>
+                    <td>Adding the profile parameter, the response will include additional personal information about the employee such as their password and government Id.</td>
+                </tr>
+            </table>
+
+            <h4>Retrieving Users Based on Active or Inactive Status</h4>
+            <p>By default, the endpoint returns only Active users within the company. If you would like to retrieve Inactive users or a list of both Active and Inactive you can use the <code>activeStatus</code> property to do so.</p>
+
+            <ul>
+                <li><code>/users?activeStatus=inactive</code> will return all inactive users for the company.</li>
+                <li><code>/users?activeStatus=all</code> will return all active and inactive users for the company.</li>
+            </ul>
+
+            <h4>Creating Custom Queries</h4>
+            <p>The user’s endpoint allows for querying and filtering of data using a simple querying language when calling the API.</p>
+
+            <p>
+                <b>Query Breakdown</b><br>
+                A query consists of 3 parts, the field to query on, the type of query and the value to query for.
+            </p>
+
+            <p>
+                <b>Example</b><br>
+                <code>query=name[=]tony</code> - this would return all users who have the name of tony.<br>
+                <i>Note that queries are not case sensitive.</i>
+            </p>
+
+
             <h2 id="content-get-employee">Get Employee</h2>
-            <p>The Get Employee endpoint provides access to a single user based on their unique Id.</p>
+            <p>Version 3 of our List Users API introduces an improved response providing additional data that is not available from version 2. 
+                Note that version 3 of the API is a breaking change.</p>
+            
+            <h4>Customizing the Response</h4>
+            <p>By default, this endpoint will return a minimum set of data for the employee. Additional data can be requested 
+                by using the include query parameter.
+            </p>
+
+            <p>
+                <b>Example</b><br>
+                <code>/membership/v3/users/:userGuid?include=manager,department,employment,company,profile</code>
+            </p>
+
+            <table>
+                <tr>
+                    <td class="table-header">Query Parameter</td>
+                    <td>Response</td>
+                </tr>
+                <tr>
+                    <td><code>manager</code></td>
+                    <td>Adding the manager parameter, the response will include details about the employees manager, such as their name and email.</td>
+                </tr>
+                <tr>
+                    <td><code>department</code></td>
+                    <td>Adding the department parameter, the response will include the information of what department the employee belong to.</td>
+                </tr>
+                <tr>
+                    <td><code>employment</code></td>
+                    <td>Adding the employment parameter, the response will include the employees employment information such as their designation and employment status.</td>
+                </tr>
+                <tr>
+                    <td><code>company</code></td>
+                    <td>Adding the company parameter, the response will include company data such as name and unique Id.</td>
+                </tr>
+                <tr>
+                    <td><code>profile</code></td>
+                    <td>Adding the profile parameter, the response will include additional personal information about the employee such as their password and government Id.</td>
+                </tr>
+            </table>
         </div>
 
         <hr>
 
         <div class="overflow-hidden content-section" id="content-payroll-api">
             <h1>Payroll API</h1>
-            <!-- <p>The Payroll API provides...</p> -->
             <h2 id="content-get-employee-pay-info">Get Employee Pay Information</h2>
             <p>Returns data relating to the given employees pay setup.</p>
             <table>
@@ -308,19 +405,117 @@ grant_type=refresh_token&refresh_token={{RefreshToken}}&client_id={{ClientId}}&c
                     <td><code>:userGuid</code> - the unique user identifier of the user.</td>
                 </tr>
             </table>
+
+            <p><b>Example Response</b></p>
+            <div class="code-block">
+            <pre><code>
+            {
+                "companyGUID": "B02790A655DE4304A2557016C698BA9D",
+                "userGUID": "0BF91817E2E64B0C92F22FD24A9D4604",
+                "payPeriod": "Fortnightly",
+                "payMethod": "cash",
+                "basicPay": 0.0
+            }                   
+            </code></pre>
+            </div>
+            
             <h2 id="content-get-bank-info">Get Bank Information</h2>
-            <p><code>{{Environment API URL}}/payroll/employee-management/v1/users/:userGuid/bankinfo</code></p>
+            <p>Returns data relating to the given employees bank information.</p>
+            <table>
+                <tr>
+                    <td class="table-header">Method</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td class="table-header">URL</td>
+                    <td><code>/payroll/employee-management/v1/users/:userGuid/bankinfo</code></td>
+                </tr>
+                <tr>
+                    <td class="table-header">Headers</td>
+                    <td><code>Authorization Bearer: {{token}}</code></td>
+                </tr>
+                <tr>
+                    <td class="table-header">Parameters</td>
+                    <td><code>:userGuid</code> - the unique user identifier of the user.</td>
+                </tr>
+            </table>
         </div>
 
         <hr>
 
         <div class="overflow-hidden content-section" id="content-leave-management-api">
             <h1>Leave Management API</h1>
-            <p>The Leave Management API provides...</p>
+            <p>The Leave Management API provides access to leave data for employees and company settings.</p>
             <h2 id="content-get-leave-type-list">Get List of Leave Types</h2>
-            <p><code>{{Environment API URL}}/leave/setup/leave/v2/companies/:companyguid/users/:userguid/assignedleavetypes?whichyear=2023</code></p>
+            <table>
+                <tr>
+                    <td class="table-header">Method</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td class="table-header">URL</td>
+                    <td><code>/leave/setup/leave/v2/companies/:companyguid/users/:userguid/assignedleavetypes?whichyear=2023</code></td>
+                </tr>
+                <tr>
+                    <td class="table-header">Headers</td>
+                    <td><code>Authorization Bearer: {{token}}</code></td>
+                </tr>
+                <tr>
+                    <td class="table-header">Parameters</td>
+                    <td>
+                        <ul class="unstyled">
+                            <li><code>:companyGuid</code> - the unique identifier of the company.</li>
+                            <li><code>:userGuid</code> - the unique user identifier of the user.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+
+            <p><b>Example Response</b></p>
+            <div class="code-block">
+            <pre><code>
+                {
+                    "companyGuid": "44AD7A7A048443AAB22CA52FC353E5AB",
+                    "userGuid": "8CDE5DDF169E472B8309ACC91069E3D4",
+                    "leaveTypes": [
+                      {
+                        "leaveType": 1,
+                        "leaveName": "Annual"
+                      }
+                    ],
+                    "whichYear": 2023,
+                    "basedOnDate": "2023-06-26"
+                  }                   
+            </code></pre>
+            </div>
+            
+            
             <h2 id="content-get-leave-info">Get Leave Information</h2>
-            <p><code>{{Environment API URL}}/leave/setup/leave/v2/companies/:companyguid/users/:userguid/leavetypes/:leaveTypeId/leavesummary?baseondate=YYYY-MM-DD</code></p>
+            <table>
+                <tr>
+                    <td class="table-header">Method</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td class="table-header">URL</td>
+                    <td><code>/leave/setup/leave/v2/companies/:companyguid/users/:userguid/leavetypes/:leaveTypeId/leavesummary?baseondate=YYYY-MM-DD</code></td>
+                </tr>
+                <tr>
+                    <td class="table-header">Headers</td>
+                    <td><code>Authorization Bearer: {{token}}</code></td>
+                </tr>
+                <tr>
+                    <td class="table-header">Parameters</td>
+                    <td>
+                        <ul class="unstyled">
+                            <li><code>:companyGuid</code> - the unique identifier of the company.</li>
+                            <li><code>:userGuid</code> - the unique user identifier of the user.</li>
+                            <li><code>:leaveTypeId</code> - the unique id of the Leave Type. Leave types can be retrieved using the <b>Get List of Leave Types</b> endpoint.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+            <p><code></code></p>
         </div>
 
         
