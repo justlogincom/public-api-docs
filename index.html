@@ -43,7 +43,9 @@
         <h2 class="scroll-to-link active section-title" data-target="content-get-started"><a>Getting Started</a></h2>
         <ul>
             <li class="scroll-to-link active" data-target="content-authentication"><a>Authentication</a></li>
+            <li class="scroll-to-link active" data-target="content-paging"><a>Response Paging</a></li>
             <li class="scroll-to-link active" data-target="content-api-environments"><a>API Environments</a></li>
+            <li class="scroll-to-link active" data-target="content-errors"><a>Response Errors</a></li>
         </ul>
         <h2 class="scroll-to-link active section-title" data-target="content-employee-api">Employee API</h2>
         <ul>
@@ -119,7 +121,6 @@ grant_type=refresh_token&refresh_token={{RefreshToken}}&client_id={{ClientId}}&c
 
             <h4>Resource Availability</h4>
             <p>Every user within JustLogin can have one or more roles. The roles which are assigned to the user will define what data that user can access.</p>
-
 
             <h4>Authorization Code Flow Postman Example</h4>
             <p>Below is an example of using Authorization Code Flow to obtain an Access Token using Postman.</p>
@@ -198,6 +199,66 @@ grant_type=refresh_token&refresh_token={{RefreshToken}}&client_id={{ClientId}}&c
                 <img src="images/oauth-response.png" alt="OAuth Login Confirmation" />
             </div>
 
+            <h2 id="content-paging">Response Paging</h2>
+            <p>Some of our API endpoints will return a large amount of data. To help with this we have implemented paging. The paging information will be returned in the response header.</p>
+            <p>All top-level API resources have support for returning data in a paged format. Paged data can be accessed by using the following parameters: limit and page.</p>
+
+            <h4>Parameters</h4>
+            <ul>
+                <li><code>limit</code> optional, default is 50. A limit on the number of objects returned, between 1 and 100.</li>
+                <li><code>page</code> optional, default is 1. Defines the page to start returning the data from.</li>
+            </ul>
+
+            <h4>Accessing Pagination Data</h4>
+            <p>Each API call returns information about the paged data in the x-pagination response header. This data is in the form of a JSON string and looks as follows:</p>
+            <div class="code-block">
+<pre><code>
+{
+    "TotalCount": 37,
+    "PageSize": 10,
+    "CurrentPage": 1,
+    "TotalPages": 4,
+    "HasNext": true,
+    "HasPrevious": false
+}                    
+</code></pre>
+</div>
+
+            <table>
+                <tr>
+                    <td class="table-header">Item</td>
+                    <td>Description</td>
+                </tr>
+                <tr>
+                    <td><code>TotalCount</code></td>
+                    <td>This is the total number of objects in the entire result set.</td>
+                </tr>
+                <tr>
+                    <td><code>PageSize</code></td>
+                    <td>This is the total number of objects returned in the current response.</td>
+                </tr>
+                <tr>
+                    <td><code>CurrentPage</code></td>
+                    <td>The current page of the returned result set.</td>
+                </tr>
+                <tr>
+                    <td><code>TotalPages</code></td>
+                    <td>The total number of pages in the entire result set.</td>
+                </tr>
+                <tr>
+                    <td><code>HasNext</code></td>
+                    <td>Boolean stating if there is another page forward in the entire result set that can be fetched.</td>
+                </tr>
+                <tr>
+                    <td><code>HasPrevious</code></td>
+                    <td>Boolean stating if there is another page backwards in the entire result set that can be fetched.</td>
+                </tr>
+            </table>
+
+            <h2 id="content-errors">Errors</h2>
+            <p>JustLogin uses conventional HTTP response codes to indicate the success or failure of an API request. In general: Codes 
+                in the 2xx range indicate success. Codes in the 4xx range indicate an error that failed given the information provided 
+                (e.g., invalid email address given, etc.). Codes in the 5xx range indicate an error with JustLogin's servers (these are rare).</p>
 
             <h2 id="content-api-environments">API Environments</h2>
             <p>For ease of development we provide access to 2 environments when accessing our APIs. The Sandbox environment is a dedicated 
