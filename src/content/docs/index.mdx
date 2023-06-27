@@ -1,0 +1,26 @@
+---
+title: Welcome to JustLogin API Documentation
+description: Get started integrating with JustLogin.
+template: splash
+hero:
+  tagline: Get started by checking out the sections below
+  image:
+    file: ../../assets/img/plane.png
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="Start Here" icon="rocket">
+    Learn how to [get started](/getting-started/authentication/) with the JustLogin API.
+  </Card>
+  <Card title="Employee API" icon="document">
+    The [Employee API](/api/employee/introduction/) provides access to the employees core data such as name and email along with additional details link employee manager.
+  </Card>
+  <Card title="Payroll API" icon="document">
+    The [Payroll API](/api/payroll/introduction/) provides access to company and employees payroll data such as pay information and bank details.
+  </Card>
+  <Card title="Leave API" icon="document">
+    The [Leave API](/api/leave/introduction/) provides access to company and employees leave data such as leave taken, leave balance and public holidays.
+  </Card>
+</CardGrid>
