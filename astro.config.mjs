@@ -3,6 +3,8 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://api-docs.justlogin.com',
+  // base: '',
   integrations: [
     starlight({
       title: 'JustLogin API',
