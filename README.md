@@ -49,3 +49,7 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+
+## CI/CD
+
+- **AI PR review** — runs automatically on PRs targeting `gh-pages`, posts a Claude-powered review comment with APPROVE or REQUEST_CHANGES
